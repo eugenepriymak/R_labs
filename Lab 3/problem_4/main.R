@@ -74,32 +74,12 @@ plot_food_drinks_tobacco = function(exp_table, imp_table){
   }
   
   create_graph = function(year_to, year_from, dates, exp_sums, imp_sums) {
-    get_is_min_col = function(vec) {
-      is_min_col = vector("character", length(vec))
-      min_elem = min(vec)
-      ind = 1
-      while (ind <= length(vec)) {
-        if (vec[ind] == min_elem) {
-          is_min_col[ind] = "Minimal"
-        }
-        else {
-          is_min_col[ind] = ""
-        }
-        ind = ind + 1
-      }
-      return(is_min_col)
-    }
-    
-    
-    is_min_exp_col = get_is_min_col(exp_sums)
-    is_min_imp_col = get_is_min_col(imp_sums)
     graph_points = data.frame(arg=as.character(year_from:year_to),
                               val = c(exp_sums, imp_sums),
-                              is_min = c(is_min_exp_col, is_min_imp_col),
                               group=rep(c("Export", "Import"), each=length(dates)))
     
     graph = ggplot(data=graph_points, aes(x=arg, y=val, group=group, colour=group))
-    graph = graph  + geom_line() +  geom_point()
+    graph = graph + geom_line() + geom_point()
     graph = graph + scale_color_discrete(name="Legend:")
     graph = graph + labs(title=paste0("Export and import of food, drinks, tabacco from ",
                                       year_from,
@@ -107,7 +87,7 @@ plot_food_drinks_tobacco = function(exp_table, imp_table){
                                       year_to),
                          x="Year (January, 1st)",
                          y="Sum (in millions ECU/EURO)")
-    graph = graph + geom_text(aes(label=is_min), nudge_y=-20000)
+    graph = graph + geom_text(aes(label=val), nudge_y=50000)
     
     return(graph)
   }
