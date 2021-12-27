@@ -1,11 +1,6 @@
 load("resources/data.RData")
 
 
-init_df_mean_temp = function() {
-  ids_of_1st_df
-}
-
-
 get_patient_temp = function(day_ind, patient_id) {
   row_ind = 1
   rows_number = nrow(data[[day_ind]])
